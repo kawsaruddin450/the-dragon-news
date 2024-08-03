@@ -8,27 +8,33 @@ const auth = getAuth(app)
 
 const AuthProviders = ({children}) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const createUser = (email, password) => {
+        setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
     const logInUser = (email, password) => {
+        setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, loggedUser => {
-            setUser(loggedUser)
+            setUser(loggedUser);
+            setLoading(false);
         })
         return () => {
             unsubscribe();
         }
     },[]);
     const signOutUser = ()=> {
+        setLoading(true);
         return signOut(auth);
     }
     const authInfo = {
         user,
+        loading,
         createUser,
         logInUser,
         signOutUser,
