@@ -5,7 +5,13 @@ import { Link } from 'react-router-dom';
 import userPic from '../../../assets/user.png';
 
 const NavigationBar = () => {
-    const { user } = useContext(AuthContext);
+    const { user, signOutUser } = useContext(AuthContext);
+
+    const handleSignOut = () => {
+        signOutUser()
+        .then(result => console.log("log out"))
+        .then(error => console.log(error.code));
+    }
 
     return (
         <Container className='mb-5'>
@@ -14,7 +20,7 @@ const NavigationBar = () => {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mx-auto">
-                            <Link className='me-2 text-decoration-none text-dark' to='/'>Home</Link>
+                            <Link className='me-2 text-decoration-none text-dark' to='/category/0'>Home</Link>
                             <Link className='me-2 text-decoration-none text-dark' to='/'>About</Link>
                             <Link className='text-decoration-none text-dark' to='/'>Contact</Link>
                         </Nav>
@@ -22,7 +28,7 @@ const NavigationBar = () => {
                             <img width="40" className='me-3' src={userPic} alt="" />
                             {
                                 user ?
-                                    <Button variant="secondary">Log Out</Button> :
+                                    <Button variant="secondary" onClick={handleSignOut}>Log Out</Button> :
                                     <Link to='/login'><Button variant="secondary">Log In</Button></Link>
                             }
                         </Nav>
