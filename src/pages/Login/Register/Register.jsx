@@ -7,6 +7,7 @@ const Register = () => {
     const {user, createUser} = useContext(AuthContext);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
+    const [accepted, setAccepted] = useState(false);
 
     const registerUser = (event) => {
         event.preventDefault();
@@ -28,6 +29,9 @@ const Register = () => {
             setError(error.code);
         })
     }
+    const handleAccepted = event => {
+        setAccepted(event.target.checked);
+    }
     return (
         <Container className='w-50 mx-auto'>
             <h3>Register Now</h3>
@@ -45,9 +49,12 @@ const Register = () => {
                     <Form.Control type="password" name='password' id='password' placeholder="Password" required />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Accept terms and conditions" />
+                    <Form.Check 
+                    type="checkbox"
+                    onClick={handleAccepted}
+                    label={<>Accept <Link className='text-decoration-none text-warning' to='/terms'>Terms and Conditions</Link></>} />
                 </Form.Group>
-                <Button variant="dark" className='w-100 py-2 fw-bold' type="submit">
+                <Button variant="dark" className='w-100 py-2 fw-bold' type="submit" disabled={!accepted}>
                     Register
                 </Button>
                 <Form.Text className="text-dark mx-auto">
